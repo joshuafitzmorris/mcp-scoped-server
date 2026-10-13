@@ -184,3 +184,7 @@ The baseline is a keyword router I wrote by reading only the dev cases, so the h
 ## Not here
 
 Refresh tokens, dynamic client registration, consent screens, revocation, and step-up auth (a missing scope comes back as a tool error, not an HTTP 403 `insufficient_scope` challenge). Without dynamic client registration, MCP Inspector and desktop clients can't sign in to it as-is; the demo client is pre-registered. Audit events go to a logger, not durable storage.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

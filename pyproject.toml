@@ -1,6 +1,7 @@
 [project]
 name = "mcp-scoped-server"
 version = "0.1.0"
+license = "MIT"
 description = "A deny-by-default MCP server: every tool declares its scopes, every result is narrowed to the caller's tenant, and CI fails a tool that does neither."
 authors = [
     { name = "Joshua Fitz-Morris", email = "joshuafitzmorris09@gmail.com" }
