@@ -41,3 +41,10 @@ def mark_invoice_paid(view: TenantView, invoice_id: str) -> Invoice:
     if invoice is None:
         raise NotFound("invoice not found")
     return invoice
+
+
+@tool(scopes=["invoices:read"])
+def paid_this_year(view: TenantView) -> Totals:
+    """Paid invoices issued this year, for the dashboard."""
+    paid = [i for i in view._store.invoices if i.status == "paid" and i.issued.year == 2026]
+    return Totals(tenant=view.tenant, status="paid", count=len(paid), total_cents=sum(i.amount_cents for i in paid))

@@ -102,6 +102,12 @@ def build_server(*, registry: Registry, store: Store, auth: ServerAuth | None) -
             description=t.description,
             annotations=ToolAnnotations(read_only_hint=not t.writes, open_world_hint=False),
         )
+
+    @mcp.tool()
+    def health() -> str:
+        """Liveness check for the load balancer."""
+        return "ok"
+
     return mcp
 
 
