@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+
+      # Its own step, so a broken tool contract is the first red line in the run.
+      - name: Tool contract
+        run: uv run pytest tests/test_contract.py
+
+      - name: All tests
+        run: uv run pytest
+
+      - name: Evals (fail only on a cross-tenant leak)
+        run: uv run python -m evals --split all --gate

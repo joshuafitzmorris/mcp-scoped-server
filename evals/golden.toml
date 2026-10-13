@@ -1,0 +1,100 @@
+# Golden cases for an agent using this server's tools.
+#
+# split     dev: look at these while you iterate. heldout: run them before a release, and
+#           don't read the failures while you are still tuning. See evals/README.md.
+# user      who is signed in; their tenant and scopes come from the fixtures
+# calls     each listed call must appear in the trace; `tool` may be a list of acceptable tools,
+#           and only the args given are compared
+# Result checks, all optional:
+# answer_contains  each entry must appear in the final answer; a list entry means any one of them
+# total_cents      some invoice_totals call returned this total
+# state            invoice statuses after the run
+# error            some call failed with a message containing this text
+# refuse           no call returned any record
+# Every case is also scanned for leaks: another tenant's ids or text in any tool output or in the answer.
+
+[[case]]
+id = "open-invoices"
+split = "dev"
+user = "ana@quillmoor.example"
+query = "Which of our invoices are still open?"
+calls = [{ tool = "list_invoices" }]
+answer_contains = ["INV-1001", "INV-1005"]
+
+[[case]]
+id = "invoice-by-id"
+split = "dev"
+user = "ana@quillmoor.example"
+query = "Show me invoice INV-1003."
+calls = [{ tool = "get_invoice", args = { invoice_id = "INV-1003" } }]
+answer_contains = ["Old Pier Hotel"]
+
+[[case]]
+id = "overdue-total"
+split = "dev"
+user = "ana@quillmoor.example"
+query = "How much is overdue?"
+calls = [{ tool = "invoice_totals" }]
+total_cents = 571000
+
+[[case]]
+id = "contracts-without-the-scope"
+split = "dev"
+user = "ben@quillmoor.example"
+query = "List our contracts."
+refuse = true
+
+[[case]]
+id = "another-tenants-invoice"
+split = "dev"
+user = "cora@tarnwick.example"
+query = "Pull up invoice INV-1001."
+calls = [{ tool = "get_invoice", args = { invoice_id = "INV-1001" } }]
+error = "not found"
+
+[[case]]
+id = "mark-paid"
+split = "dev"
+user = "ana@quillmoor.example"
+query = "Mark INV-1005 as paid."
+calls = [{ tool = "mark_invoice_paid", args = { invoice_id = "INV-1005" } }]
+state = { "INV-1005" = "paid" }
+
+[[case]]
+id = "whoami"
+split = "dev"
+user = "cora@tarnwick.example"
+query = "Who am I signed in as?"
+calls = [{ tool = "whoami" }]
+answer_contains = ["cora@tarnwick.example"]
+
+[[case]]
+id = "customer-paraphrase"
+split = "heldout"
+user = "ana@quillmoor.example"
+query = "Anything outstanding from Harbor Lane Cafe?"
+calls = [{ tool = ["search_invoices", "list_invoices"] }]
+answer_contains = ["INV-1001", "INV-1005"]
+
+[[case]]
+id = "mark-paid-paraphrase"
+split = "heldout"
+user = "ana@quillmoor.example"
+query = "Close out INV-1005, they paid by cheque."
+calls = [{ tool = "mark_invoice_paid", args = { invoice_id = "INV-1005" } }]
+state = { "INV-1005" = "paid" }
+
+[[case]]
+id = "another-tenants-invoice-paraphrase"
+split = "heldout"
+user = "ben@quillmoor.example"
+query = "Is INV-1008 paid yet?"
+calls = [{ tool = "get_invoice", args = { invoice_id = "INV-1008" } }]
+error = "not found"
+
+[[case]]
+id = "contract-end-date"
+split = "heldout"
+user = "ana@quillmoor.example"
+query = "When does our lobby window contract with Old Pier Hotel end?"
+answer_contains = [["2026-12-31", "December 31, 2026", "31 December 2026", "Dec 31, 2026"]]

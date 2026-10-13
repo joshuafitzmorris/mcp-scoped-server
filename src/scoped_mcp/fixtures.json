@@ -1,0 +1,43 @@
+{
+  "_note": "Invented data. Both companies, every customer and every user are fictional; the .example domain is reserved by RFC 2606.",
+  "tenants": {
+    "quillmoor": "Quillmoor Glass Co.",
+    "tarnwick": "Tarnwick Bakery"
+  },
+  "users": [
+    {
+      "subject": "ana@quillmoor.example",
+      "tenant": "quillmoor",
+      "scopes": ["profile:read", "invoices:read", "invoices:write", "contracts:read"]
+    },
+    {
+      "subject": "ben@quillmoor.example",
+      "tenant": "quillmoor",
+      "scopes": ["profile:read", "invoices:read"]
+    },
+    {
+      "subject": "cora@tarnwick.example",
+      "tenant": "tarnwick",
+      "scopes": ["profile:read", "invoices:read", "invoices:write", "contracts:read"]
+    }
+  ],
+  "invoices": [
+    {"id": "INV-1001", "tenant": "quillmoor", "customer": "Harbor Lane Cafe", "amount_cents": 184000, "status": "open", "issued": "2026-09-02", "due": "2026-10-02", "memo": "Etched glass panels for the front counter"},
+    {"id": "INV-1002", "tenant": "tarnwick", "customer": "Millrace Grocers", "amount_cents": 96500, "status": "paid", "issued": "2026-08-14", "due": "2026-09-13", "memo": "August wholesale sourdough"},
+    {"id": "INV-1003", "tenant": "quillmoor", "customer": "Old Pier Hotel", "amount_cents": 452000, "status": "overdue", "issued": "2026-07-01", "due": "2026-07-31", "memo": "Replacement lobby skylight"},
+    {"id": "INV-1004", "tenant": "tarnwick", "customer": "Saltmarsh Primary School", "amount_cents": 31200, "status": "open", "issued": "2026-09-20", "due": "2026-10-20", "memo": "Bake sale trays, September"},
+    {"id": "INV-1005", "tenant": "quillmoor", "customer": "Harbor Lane Cafe", "amount_cents": 73500, "status": "open", "issued": "2026-09-28", "due": "2026-10-28", "memo": "Pastry case sneeze guard"},
+    {"id": "INV-1006", "tenant": "tarnwick", "customer": "Kestrel Cycle Works", "amount_cents": 128000, "status": "overdue", "issued": "2026-06-10", "due": "2026-07-10", "memo": "Staff breakfast catering, June"},
+    {"id": "INV-1007", "tenant": "quillmoor", "customer": "Fernhill Dental", "amount_cents": 260000, "status": "paid", "issued": "2026-05-18", "due": "2026-06-17", "memo": "Frosted partition install"},
+    {"id": "INV-1008", "tenant": "tarnwick", "customer": "Millrace Grocers", "amount_cents": 102300, "status": "open", "issued": "2026-09-14", "due": "2026-10-14", "memo": "September wholesale sourdough"},
+    {"id": "INV-1009", "tenant": "quillmoor", "customer": "Old Pier Hotel", "amount_cents": 119000, "status": "overdue", "issued": "2026-08-03", "due": "2026-09-02", "memo": "Ballroom mirror resilvering"},
+    {"id": "INV-1010", "tenant": "tarnwick", "customer": "Harbor Lane Cafe", "amount_cents": 45000, "status": "paid", "issued": "2026-09-01", "due": "2026-10-01", "memo": "Croissant standing order"}
+  ],
+  "contracts": [
+    {"id": "CTR-2001", "tenant": "quillmoor", "counterparty": "Old Pier Hotel", "title": "Lobby window maintenance", "status": "active", "starts": "2026-01-01", "ends": "2026-12-31", "annual_value_cents": 1200000},
+    {"id": "CTR-2002", "tenant": "tarnwick", "counterparty": "Saltmarsh Primary School", "title": "School lunch bread supply", "status": "active", "starts": "2025-09-01", "ends": "2027-06-30", "annual_value_cents": 1850000},
+    {"id": "CTR-2003", "tenant": "quillmoor", "counterparty": "Fernhill Dental", "title": "Clinic glazing retainer", "status": "expired", "starts": "2024-03-01", "ends": "2026-02-28", "annual_value_cents": 300000},
+    {"id": "CTR-2004", "tenant": "tarnwick", "counterparty": "Kestrel Cycle Works", "title": "Cafe pastry supply", "status": "draft", "starts": "2026-11-01", "ends": "2027-10-31", "annual_value_cents": 640000},
+    {"id": "CTR-2005", "tenant": "quillmoor", "counterparty": "Harbor Lane Cafe", "title": "Display case glass", "status": "draft", "starts": "2026-11-15", "ends": "2027-11-14", "annual_value_cents": 210000}
+  ]
+}

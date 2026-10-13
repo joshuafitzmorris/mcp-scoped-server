@@ -1,0 +1,33 @@
+[project]
+name = "mcp-scoped-server"
+version = "0.1.0"
+description = "A deny-by-default MCP server: every tool declares its scopes, every result is narrowed to the caller's tenant, and CI fails a tool that does neither."
+authors = [
+    { name = "Joshua Fitz-Morris", email = "joshuafitzmorris09@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "httpx2>=2.13.1",
+    "mcp>=2.3.0,<3",
+    "pyjwt[crypto]>=2.15.1",
+]
+
+[project.optional-dependencies]
+llm = ["anthropic"]
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "scoped_mcp"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
